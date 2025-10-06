@@ -1,17 +1,30 @@
 package org.tarefa;
+import org.tarefa.repositories.*;
+import org.tarefa.models.*;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.time.LocalDateTime;
+import java.util.*;
+
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Customer cliente = new Customer("Joao Pedro", CustomerType.VIP);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        List<OrderItem> itens = new ArrayList<>();
+        itens.add(new OrderItem("Teclado Mecânico", 250.0, 1, DiscountType.DESC10));
+        itens.add(new OrderItem("Mouse Gamer", 150.0, 2, DiscountType.DESC20));
+        itens.add(new OrderItem("Monitor 27\"", 1200.0, 1, DiscountType.NORMAL));
+
+        Order pedido = new Order(cliente, itens, "PENDENTE", LocalDateTime.now());
+
+        System.out.println("Total do pedido: " + pedido.getTotal());
+
+        System.out.println("\nItens do pedido:");
+        for (OrderItem item : pedido.getItems()) {
+            System.out.println(item.getProductName() + " x" + item.getQuantity() +
+                    " - Preço: " + item.getPrice() +
+                    " - Desconto: " + item.getDiscountType());
         }
+
     }
 }
