@@ -27,7 +27,3 @@ A arquitetura foi guiada pelos seguintes pilares:
 **Separação de Responsabilidades:** A lógica de negócio, acesso a dados e apresentação estão em camadas distintas (services, repositories, strategies).
 
 **Uso de Abstrações:** Interfaces são usadas para desacoplar componentes e aumentar a flexibilidade
-
-## 3. Estrutura do Projeto
-O código está organizado nos seguintes pacotes, seguindo uma arquitetura limpa...
-
