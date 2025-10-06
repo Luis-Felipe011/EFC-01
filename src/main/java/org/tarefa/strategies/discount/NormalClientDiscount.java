@@ -5,5 +5,4 @@ public class NormalClientDiscount implements ICustomerDiscountStrategy{
     public double applyCustomerDiscount(double total) {
         return total;
     }
-
 }

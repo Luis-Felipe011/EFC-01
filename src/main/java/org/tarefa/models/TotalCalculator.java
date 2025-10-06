@@ -5,22 +5,27 @@ import org.tarefa.strategies.discount.DiscountStrategyFactory;
 import org.tarefa.strategies.discount.IDiscountStrategy;
 import org.tarefa.strategies.discount.ICustomerDiscountStrategy;
 
-import java.util.*;
-
+import java.util.List;
 
 public class TotalCalculator {
-    public double calcularTotal(IOrder pedido) {
-        List<OrderItem> itensDoPedido = pedido.getItems();
-        double total = 0;
 
-        for (OrderItem itemAtual : itensDoPedido) {
-            IDiscountStrategy estrategiaDeDesconto = DiscountStrategyFactory.getStrategy(itemAtual.getDiscountType());
-            total += estrategiaDeDesconto.applyDiscount(itemAtual.getPrice(), itemAtual.getQuantity());
+    private static final double SPECIAL_ORDER_FEE = 1.15;
+
+    public double calculate(List<OrderItem> items, CustomerType customerType, boolean isSpecialOrder) {
+        double subtotal = 0;
+
+        for (OrderItem item : items) {
+            IDiscountStrategy strategy = DiscountStrategyFactory.getStrategy(item.getDiscountType());
+            subtotal += strategy.applyDiscount(item.getPrice(), item.getQuantity());
         }
-        ICustomerDiscountStrategy descontoCliente = CustomerDiscountFactory.getClientDiscountStrategy(pedido.getCustomer().getType());
-        total = descontoCliente.applyCustomerDiscount(total);
-        return total;
 
+        ICustomerDiscountStrategy customerDiscount = CustomerDiscountFactory.getClientDiscountStrategy(customerType);
+        subtotal = customerDiscount.applyCustomerDiscount(subtotal);
+
+        if (isSpecialOrder) {
+            subtotal *= SPECIAL_ORDER_FEE;
+        }
+
+        return subtotal;
     }
-
 }

@@ -1,7 +1,7 @@
 package org.tarefa.strategies.discount;
-import org.tarefa.models.CustomerType;
 
-import java.util.*;
+import org.tarefa.models.CustomerType;
+import java.util.Map;
 
 public class CustomerDiscountFactory {
     private static final Map<CustomerType, ICustomerDiscountStrategy> STRATEGIES = Map.of(

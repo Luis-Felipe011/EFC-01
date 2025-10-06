@@ -1,19 +1,17 @@
-package services;
+package org.tarefa.services;
 
-import models.Order;
+import org.tarefa.models.Customer;
 
-public class NotificationService {
+public class NotificationService implements INotificationService {
 
-    public void sendEmail(String clientName, String message) {
-        System.out.println("Email enviado para " + clientName + ": " + message);
+    @Override
+    public void sendNotification(Customer customer, String message) {
+        System.out.println("Email enviado para " + customer.getName() + ": " + message);
     }
 
-    public void notifyStatus(Order order, String newStatus) {
-        String client = order.getClientName();
-        switch (newStatus) {
-            case "aprovado" -> System.out.println("SMS + Email enviados para " + client + ": Pedido aprovado!");
-            case "enviado" -> System.out.println("Email enviado para " + client + ": Pedido enviado!");
-            case "entregue" -> System.out.println("Email enviado para " + client + ": Pedido entregue!");
-        }
+    @Override
+    public void sendPaymentApprovedNotification(Customer customer) {
+        System.out.println("Email enviado para " + customer.getName() + ": Pedido aprovado!");
+        System.out.println("SMS enviado para " + customer.getName() + ": Pedido aprovado!");
     }
 }

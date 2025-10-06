@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Database {
+public class DatabaseManager {
     private static final String URL = "jdbc:sqlite:loja.db";
 
     public static Connection getConnection() throws SQLException {
@@ -26,9 +26,9 @@ public class Database {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Sucesso");
+            System.out.println("Banco de dados inicializado com sucesso.");
         } catch (SQLException e) {
-            System.err.println("Erro" + e.getMessage());
+            System.err.println("Erro: " + e.getMessage());
         }
     }
 }

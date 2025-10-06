@@ -13,19 +13,8 @@ public class OrderItem {
         this.discountType = discountType;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public DiscountType getDiscountType() {
-        return discountType;
-    }
+    public String getProductName() { return productName; }
+    public double getPrice() { return price; }
+    public int getQuantity() { return quantity; }
+    public DiscountType getDiscountType() { return discountType; }
 }

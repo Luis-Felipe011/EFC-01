@@ -1,7 +1,6 @@
 package org.tarefa.strategies.discount;
 
 import org.tarefa.models.DiscountType;
-
 import java.util.Map;
 
 public class DiscountStrategyFactory {

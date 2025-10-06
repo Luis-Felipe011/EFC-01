@@ -2,11 +2,17 @@ package org.tarefa.repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.tarefa.models.*;
+import org.tarefa.models.Customer;
+import org.tarefa.models.CustomerType;
+import org.tarefa.models.Order;
+import org.tarefa.models.OrderItem;
 
 import java.lang.reflect.Type;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,7 +28,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
     public long save(Order order) {
         String sql = "INSERT INTO orders(customer_name, customer_type, items, total, status, creation_date) VALUES(?,?,?,?,?,?)";
 
-        try (Connection conn = Database.getConnection();
+        try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, order.getCustomer().getName());
@@ -50,7 +56,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
     @Override
     public Optional<Order> findById(long id) {
         String sql = "SELECT * FROM orders WHERE id = ?";
-        try (Connection conn = Database.getConnection();
+        try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -58,7 +64,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
                 return Optional.of(mapResultSetToOrder(rs));
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar o pedido por ID: " + e.getMessage());
+            System.err.println("Erro ao buscar pedido por ID: " + e.getMessage());
         }
         return Optional.empty();
     }
@@ -67,7 +73,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
     public List<Order> findAll() {
         String sql = "SELECT * FROM orders";
         List<Order> orders = new ArrayList<>();
-        try (Connection conn = Database.getConnection();
+        try (Connection conn = DatabaseManager.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
@@ -83,7 +89,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
     public List<Order> findByCustomerName(String customerName) {
         String sql = "SELECT * FROM orders WHERE customer_name = ?";
         List<Order> orders = new ArrayList<>();
-        try (Connection conn = Database.getConnection();
+        try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, customerName);
             ResultSet rs = pstmt.executeQuery();
@@ -91,15 +97,16 @@ public class OrderRepositoryImpl implements IOrderRepository {
                 orders.add(mapResultSetToOrder(rs));
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar os pedidos por cliente: " + e.getMessage());
+            System.err.println("Erro ao buscar pedidos por cliente: " + e.getMessage());
         }
         return orders;
     }
 
+
     @Override
     public void updateStatus(long id, String status) {
         String sql = "UPDATE orders SET status = ? WHERE id = ?";
-        try (Connection conn = Database.getConnection();
+        try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, status);
             pstmt.setLong(2, id);
