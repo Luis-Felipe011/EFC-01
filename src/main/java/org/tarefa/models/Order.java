@@ -21,11 +21,7 @@ public class Order {
     }
 
     public Order(Customer customer, List<OrderItem> items, double total, String status, LocalDateTime creationDate) {
-        this.customer = customer;
-        this.items = items;
-        this.total = total;
-        this.status = status;
-        this.creationDate = creationDate;
+        this(0, customer, items, total, status, creationDate);
     }
 
     public long getId() { return id; }

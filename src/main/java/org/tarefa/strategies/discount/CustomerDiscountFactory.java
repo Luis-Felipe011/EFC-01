@@ -9,7 +9,7 @@ public class CustomerDiscountFactory {
             CustomerType.VIP, new PercentageClientDiscount(0.05)
     );
 
-    public static ICustomerDiscountStrategy getClientDiscountStrategy(CustomerType tipoDeCliente) {
-        return STRATEGIES.getOrDefault(tipoDeCliente, new NormalClientDiscount());
+    public static ICustomerDiscountStrategy getClientDiscountStrategy(CustomerType clientType) {
+        return STRATEGIES.getOrDefault(clientType, new NormalClientDiscount());
     }
 }
